@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <button>Snakes 🐍</button>
+  <button>Lions 🦁</button>
+  <button>Camels 🐫</button>
+  <button>Whales 🐳</button>
+  <button>Fire 🔥</button>
+</body>
+<script>
+  // Sets are to Arrays and Maps are to Objects
+
+  // Maps have key:value
+  // Keys and values can be anything
+  const dogs = new Map();
+
+  // set something on the Map
+  dogs.set('Snickers', 3);
+  dogs.set('Sunny', 2);
+  dogs.set('Hugo', 10);
+
+  // works for key only
+  dogs.has('Sunny'); // true
+  dogs.get('Snickers'); // 3
+  dogs.delete('Hugo');
+
+  // can use forEach((val, key))
+
+  // can use for (const [key, val] of dogs)
+
+  dogs.clear();
+
+  // you can use an object as the key of a Map
+  // this can't be done with regular objects
+
+  // this is great for logging metadata about object
+  const clickCounts = new Map();
+  const buttons = document.querySelectorAll('button');
+
+  // track click counts with keys as button metadata
+  buttons.forEach(button => {
+    // start with 0 clicks by default
+    clickCounts.set(button, 0);
+    button.addEventListener('click', function() {
+      // which button got clicked
+      const val = clickCounts.get(this);
+      console.log(val);
+      // set the button and add a click
+      clickCounts.set(this, val + 1);
+      console.log(clickCounts)
+    })
+  })
+
+</script>
+</html>

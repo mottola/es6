@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  // class declaration
+  class Dog {
+    // constructor is required
+    constructor(name, breed) {
+      this.name = name;
+      this.breed = breed;
+    }
+
+    bark() {
+      console.log(`My name is ${this.name} 🇺🇸 and I am a ${this.breed}.`)
+    }
+
+    cuddle() {
+      console.log(`I love you owner! ❤️`);
+    }
+
+    // static methods can only be called by the
+    // parent class, not by instances of the class
+    // Dog.info()
+    static info() {
+      console.log('A dog is better than a cat by 10 times.');
+    }
+
+    get description() {
+      return `${this.name} is a ${this.breed} type of dog.`;
+    }
+
+    set nickname(value) {
+      this.nickName = value.trim();
+    }
+
+    get nickname() {
+      return this.nickName;
+    }
+  }
+
+  const snickers = new Dog('Snickers', 'King Charles');
+  snickers.bark();
+  snickers.cuddle();
+  snickers.nickname = 'snickie';
+  snickers.nickname;
+
+</script>
+</html>

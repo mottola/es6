@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Promises and Async/Await</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+  // 1st way of handling async data
+  // using native Promises for the data
+  const resNative = fetch('https://api.github.com/users/wesbos')
+    // .json() also returns a Promise
+    .then(resNative => resNative.json())
+    .then(resNative => resNative)
+    .catch(err => console.error(err));
+
+
+  // 2nd way of handling async data
+  // using custom Promises
+  function breathe(amount) {
+    return new Promise((resolve, reject) => {
+      if(amount < 500) {
+        reject('That is too small of a value');
+      }
+      setTimeout(() => resolve(`Done in ${amount} ms`), amount);
+    })
+  }
+
+  // since breathe returns a Promise
+  // we can keep chaining them
+  breathe(1000).then(res => {
+    console.log(res);
+    return breathe(500);
+  }).then(res => {
+    console.log(res);
+    return breathe(600);
+  }).then(res => {
+    console.log(res);
+    return breathe(750);
+  }).catch(err => {
+    console.error(err);
+  });
+
+
+  // Making it better with Async/Await
+  // Async/Await is built on top of Promises
+  // so you still have to have a function that 
+  // returns a Promise
+
+  // to avoid having to try/catch everything
+  // we can use a higher order function for 
+  // async/await error handling when you are handling
+  // all of the errors in a similar fashion
+  function catchErrors(fn) {
+    // rest and spread allow this to take an arbitrary
+    // number of arguments
+    return function(...args) {
+      return fn(...args).catch(err => {
+        console.error(err);
+      });
+    }
+  }
+
+  // await can only be used in an async function
+  async function go(first, last) {
+    console.log(`${first} ${last} starting`);
+    // await will always resolve/reject the promise
+    const res = await breathe(1000);
+    console.log(res);
+    const res2 = await breathe(900);
+    console.log(res2);
+    const res3 = await breathe(800);
+    console.log(res3);
+    const res4 = await breathe(500);
+    console.log(res4);
+    const res5 = await breathe(600);
+    console.log(res5);
+    console.log(`${first} ${last} finished`);
+  }
+
+  // if you need to handle each error in turn, such
+  // as in form validation, the you would use the 
+  // try { all awaits }catch(err => console.error(err))
+
+  const wrappedFunction = catchErrors(go);
+  wrappedFunction('Rick', 'Mottola');
+
+  // using async/await when each fetch does not depend
+  // on the previous one
+
+  async function go2() {
+    const p1 = fetch('https://api.github.com/users/wesbos');
+    const p2 = fetch('https://api.github.com/users/mottola');
+
+    // wait for both to come back, so merge them 
+    // into a single Promise
+    const res = await Promise.all([p1, p2]);
+    const dataPromises = res.map(r => r.json());
+    const [wes, rick] = await Promise.all(dataPromises);
+    console.log(wes, rick);
+  }
+
+  go2();
+
+  // same as above but more abstracted and improved arity
+  async function getData(names) {
+    const promises = names.map(name => fetch(`https://api.github.com/users/${name}`)
+      .then(r => r.json()));
+    const people = await Promise.all(promises);
+    console.log(people);
+  }
+
+  getData(['wesbos', 'mottola', 'stolinski']);
+
+  // Using Promise with geolocation
+  function getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  }
+
+  // async function to utilize our Promisified geolocation function
+  async function go3() {
+    const position = await getCurrentPosition();
+    console.log(position);
+  }
+
+  go3();
+   
+</script>
+</html>

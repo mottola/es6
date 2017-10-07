@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  // sets are to arrays and maps are to objects
+  // sets contain unique, non-indexed values
+  // use for of to iterate a set
+  // use .next() to manually iterate a SetIterator
+
+  const people = new Set();
+
+  // add to set
+  people.add('Rick');
+  people.add('Anna');
+  people.add('Oliver');
+  people.add('Florida');
+
+  for (const person of people) {
+    // not removed from set
+    console.log(person);
+  }
+
+  // this is a SetIterator - makes it iterable
+  // when next is used on a SetIterator, it removes
+  // the item from the SetIterator, but not the set
+  const peopleIter = people.values();
+
+  // now we can iterate
+  for (const person of people) {
+    console.log(person);
+  }
+
+  const person = peopleIter.next(); // Rick
+  // Rick is now removed from peopleIter
+
+  // remove from set
+  people.delete('Florida');
+
+  // clear everything from set
+  // people.clear();
+
+  const students = new Set(['Rick', 'Anna', 'Oliver']);
+  const dogs = ['Snickers', 'Bear', 'Ladybug'];
+  const dogSet = new Set(dogs);
+
+  // existence check
+  dogSet.has('Ladybug'); // true
+
+  // sets can only have uniques
+  dogSet.add('Ladybug'); // will have only one Ladybug
+
+  // You can continue adding to a set after setting
+  // a variable to the SetIterator of that set
+  // yet the SetIterator will continue updating based
+  // on additions to the set !!!
+
+</script>
+</html>
